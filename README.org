@@ -1,0 +1,15 @@
+#+TITLE: Diseño y Análisis de Algoritmos
+#+AUTHOR: Marco Antonio Cardoso Moreno
+#+STARTUP:  CONTENT
+#+OPTIONS: toc:nil
+#+OPTIONS: title:nil
+#+OPTIONS: author:nil
+
+* Diseño y Análisis de Algoritmos
+- Profesor :: Dr Rolando Quintero
+- Teléfono :: 5512950854
+- Mail :: rolando.quintero@gmail.com
+- Mail :: quintero@cic.ipn.mx
+
+** Recursos
+- [[https://classroom.google.com/c/Mjc2ODUxNTQ1MTUy][Google Classroom]]
