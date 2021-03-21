@@ -1,0 +1,463 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Author: Marco Antonio Cardoso Moreno
+% email: marcoacardosom@gmail.com
+%
+% Template para las tareas de la asignatura Diseño y Análisis de Algoritmos
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \documentclass[letterpaper, openright, 12pt]{book}
+\documentclass[letterpaper, 12pt]{article}
+
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel} % spanish
+\usepackage[utf8]{inputenc} % for any non ASCII characters
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{physics} % simbolos matemáticos
+\usepackage{amsmath} % mejora en fórmulas  matemáticas(aligns)
+\usepackage{gensymb} % typesetting units (degrees, etc)
+\usepackage{siunitx} % scientific notation and other stuff
+
+
+\usepackage{listings} % for code blocks
+\usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2.5cm]{geometry}
+
+\usepackage{pdfpages} % insert pdf as images
+% \usepackage{cite} % referencias y bibliografía
+% \usepackage{babelbib}
+
+\usepackage{enumerate} %listas
+
+% Cambiar el titulo por default de los indices
+\addto{\captionsspanish}{\renewcommand*{\listfigurename}{Índice de Figuras}}
+\addto{\captionsspanish}{\renewcommand*{\contentsname}{Índice}}
+\addto{\captionsspanish}{\renewcommand*{\listtablename}{Índice de Tablas}}
+
+% cambia nombre de Bibliografía a Referencias
+% \renewcommand\bibname{Referencias}
+
+% define estilo de cabeceras, número de páginas, etc
+\pagestyle{plain}
+
+% water mark images
+% \usepackage[firstpageonly]{draftwatermark}
+\usepackage{eso-pic}
+
+% for phantom section* across the whole document. Better hyperrefs
+\usepackage[hidelinks]{hyperref}
+\providecommand\phantomsection*{}
+
+% for references to equations, fiugres, etc
+\usepackage{cleveref}
+
+% new paragraph
+\newcommand{\parg}{\par \hfill \break}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Document
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% carátula
+\begin{titlepage}
+\begin{center}
+  \AddToShipoutPictureBG*{
+    \includegraphics[width=\paperwidth,height=\paperheight]
+        {../../portada/portada.pdf}}
+        \vspace*{2mm}
+        \rule{\textwidth}{1.5pt}\\
+        \vspace*{5mm}
+        \textbf{\Large INSTITUTO POLITÉCNICO NACIONAL}\\
+        \vspace*{8mm}
+        {\Large Centro de Investigación en Computación}\\
+        \vspace{8mm}
+        {\Large Maestría en Ciencias en Ingeniería de Cómputo}\\
+        \vspace{19mm}
+        {\Large Diseño y Análisis de Algoritmos}\\
+        \vspace{49mm}
+
+
+
+
+        \textbf{\large Tarea 1 - Demostraciones de las propiedades de los órdenes asintóticos}\\
+
+
+
+
+
+        \vspace*{48mm}
+        {\large Docente: Dr.\ Rolando Quintero Téllez}\\
+        \vspace*{20mm}
+        {\large Alumno: Cardoso Moreno Marco Antonio}\\
+        \vspace*{10mm}
+        \rule{\textwidth}{1.5pt}\\
+        {\large Semestre A21} \hfill {\large Fecha: 17-marzo-2021}
+    \end{center}
+\end{titlepage}
+
+\newpage
+\thispagestyle{empty}
+
+% \newpage
+% \pagenumbering{Roman}
+
+
+% \clearpage
+% \tableofcontents
+% % \cleardoublepage
+%
+% \clearpage
+% \addcontentsline{toc}{section*}{Índice de Figuras}
+% \listoffigures
+%
+% \clearpage
+% \addcontentsline{toc}{section*}{Índice de Tablas}
+% \listoftables
+
+\clearpage
+\pagenumbering{arabic}
+
+\section*{Demostrar:}
+\label{sec:orgbe567fb}
+\section{\(f(n)\) es \(\Theta(g(n))\) si y sólo si es \(O(g(n))\) y es \(\Omega(g(n))\)}
+\label{sec:org5cd6a49}
+\begin{itemize}
+\item Si \(f(n)\) es \(\Theta(g(n))\), existen las constantes \(c_f', c_f\) y \(n_f\) tal
+que
+\begin{itemize}
+\item \(c_f' g(n) \leq f(n) \leq c_f g(n)\) para toda \(n \geq n_f\).
+\end{itemize}
+\end{itemize}
+
+\noindent
+Si esta desigualdad la dividimos en dos, las nuevas desigualdades quedan:
+$$
+c_f' g(n) \leq f(n) \quad \mbox{y} \quad f(n) \leq c_f g(n)
+    \quad \mbox{para toda} \quad n \geq n_f
+$$
+
+\noindent
+Se observa que estas desigualdades son las definiciones tanto de
+\(f(n) = O(g(n))\) (derecha), como de \(f(n) = \Omega(g(n))\) (izquierda), con lo
+que se comprueba el enunciado.
+\section{Transitividad}
+\label{sec:org3ddb54e}
+\subsection{Si \(f(n)\) es \(O(g(n))\) y \(g(n\)) es \(O(h(n))\) entonces \(f(n)\) es \(O(h(n))\)}
+\label{sec:org350b076}
+Como se comentó en los videos, debemos partir de que el antecedente es cierto,
+por lo tanto, sabemos que:
+\begin{itemize}
+\item Si \(f(n)\) es \(O(g(n))\), existen dos constantes \(n_f\) y \(c_f\) tal que
+\begin{itemize}
+\item para toda \(n \geq n_f\), \(c_f g(n) \geq f(n)\)
+\end{itemize}
+\item Si \(g(n)\) es \(O(h(n))\), existen dos constantes \(n_g\) y \(c_g\) tal que
+\begin{itemize}
+\item para toda \(n \geq n_g\), \(c_g h(n) \geq g(n)\)
+\end{itemize}
+\end{itemize}
+
+\noindent
+Entonces:
+$$
+c_f c_g h(n) \geq f(n) \quad \mbox{para toda} \quad n \geq \max\{n_f, n_g\}
+$$
+\subsection{Si \(f(n)\) es \(\Theta(g(n))\) y \(g(n)\) es \(\Theta(h(n))\) entonces \(f(n)\) es \(\Theta(h(n))\)}
+\label{sec:org588fd80}
+Esta comprobación es una combinación de las pruebas de transitividad para \(O(n)\)
+y \(\Omega(n)\). Asumiendo que el antecedente es cierto:
+\begin{itemize}
+\item Si \(f(n)\) es \(\Theta(g(n))\), existen las constantes \(c_f, c_f'\) y \(n_f\) tal que
+\begin{itemize}
+\item \(c_f' g(n) \leq f(n) \leq c_f g(n)\) para toda \(n \geq n_f\)
+\end{itemize}
+\item Si \(g(n)\) es \(\Theta(h(n))\), existen las constantes \(c_g, c_g'\) y \(n_g\) tal que
+\begin{itemize}
+\item \(c_g' h(n) \leq g(n) \leq c_g h(n)\) para toda \(n \geq n_g\)
+\end{itemize}
+\end{itemize}
+\parg
+Tenemos entonces:
+$$
+c_f' g(n) \leq f(n) \quad \mbox{y} \quad c_g' h(n) \leq g(n)
+$$
+si multiplicamos la ecuación de la derecha por la \textbf{constante positiva} \(c_f'\),
+obtenemos:
+$$
+c_f' c_g' h(n) \leq c_f' g(n) \leq f(n) \quad \mbox{y por lo tanto} \quad
+c_f' c_g' h(n) \leq f(n)
+$$
+\parg
+\noindent
+Por otro lado, tenemos:
+$$
+f(n) \leq  c_f g(n) \quad \mbox{y} \quad g(n) \leq c_g h(n)
+$$
+si multiplicamos la ecuación de la derecha por la \textbf{constante positiva} \(c_f\),
+obtenemos:
+$$
+f(n) \leq c_f g(n) \leq c_f c_g h(n) \quad \mbox{y por lo tanto} \quad
+f(n) \leq c_f c_g h(n)
+$$
+\parg
+
+\noindent
+Si unimos ambas partes, queda:
+$$
+c_f' c_g' h(n) \leq f(n) \leq c_f c_g h(n) \quad \mbox{para toda} \quad
+n \geq \max\{n_f, n_g\}
+$$
+\subsection{Si \(f(n)\) es \(\Omega(g(n))\) y \(g(n)\) es \(\Omega(h(n))\) entonces \(f(n)\) es \(\Omega(h(n))\)}
+\label{sec:org169c466}
+Debemos asumir que el antecedente es cierto, entonces:
+\begin{itemize}
+\item Si \(f(n)\) es \(\Omega(g(n))\), existen dos constantes \(n_f'\) y \(c_f'\) tal que
+\begin{itemize}
+\item para toda \(n \geq n_f'\), \(c_f' g(n) \leq f(n)\)
+\end{itemize}
+\item Si \(g(n)\) es \(\Omega(h(n))\), existen dos constantes \(n_g'\) y \(c_g'\) tal que
+\begin{itemize}
+\item para toda \(n \geq n_g'\), \(c_g' h(n) \leq g(n)\)
+\end{itemize}
+\end{itemize}
+
+Tenemos:
+$$
+c_f' g(n) \leq f(n)
+$$
+y
+$$
+c_g' h(n) \leq g(n)
+$$
+que al multiplicarse por la constante \textbf{positiva} \(c_f'\) queda
+$$
+c_f' c_g' h(n) \leq c_f' g(n)
+$$
+por lo que:
+$$
+c_f' c_g' h(n) \leq c_f' g(n) \leq f(n)
+$$
+entonces:
+
+$$
+c_f' f_g' h(n) \leq f(n) \quad \mbox{ para toda } \quad n \geq \max\{n_f', n_g'\}
+$$
+\section{Reflexividad}
+\label{sec:orgcf4c494}
+\subsection{Si \(f(n)\) es \(O(f(n))\) entonces \(f(n)\) es \(O(f(n))\)}
+\label{sec:org57fdc4b}
+\begin{itemize}
+\item Si \(f(n)\) es \(O(f(n))\), existen dos constantes \(c_f\) y \(n_f\) tal que
+\begin{itemize}
+\item \(f(n) \leq c_f f(n)\) para toda \(n \geq n_f\)
+\end{itemize}
+\end{itemize}
+
+\noindent
+Si hacemos \(c_f = 1\), nos queda:
+$$
+f(n) \leq 1 \cdot f(n) \quad \mbox{para toda} \quad n \geq n_f
+$$
+o
+$$
+f(n) \leq f(n) \quad \mbox{para toda} \quad n \geq n_f
+$$
+
+
+\noindent
+Con lo que se cumple la condición requerida, ya que \(f(n) = f(n)\).
+
+
+\noindent
+Si, por otro lado, despejamos \(c_f\) de \(f(n) \leq c_f f(n)\), tenemos:
+\begin{equation*}
+\frac{f(n)}{f(n)} \leq c_f \quad \mbox{por lo tanto} \quad 1 \leq c_f
+\end{equation*}
+
+de donde se observa que la condición se cumple para toda \(c_f \geq 1\).
+\subsection{Si \(f(n)\) es \(\Omega(f(n))\) entonces \(f(n)\) es \(\Omega(f(n))\)}
+\label{sec:org9cb5b2e}
+\begin{itemize}
+\item Si \(f(n)\) es \(\Omega(f(n))\), existen dos constantes \(c_f'\) y \(n_f'\) tal que
+\begin{itemize}
+\item \(c_f' f(n) \leq f(n)\) para toda \(n \geq n_f'\)
+\end{itemize}
+\end{itemize}
+
+\noindent
+Si de igual manera, hacemos \(c_f' = 1\) nos queda:
+$$
+1 \cdot f(n) \leq f(n) \quad \mbox{para toda} \quad n
+$$
+o
+$$
+f(n) \leq f(n) \quad \mbox{para toda} \quad n
+$$
+
+\noindent
+Con lo que se cumple la condición requerida, ya que \(f(n) = f(n)\).
+
+\noindent
+Si, por otro lado, despejamos \(c_f'\) de \(c_f' f(n) \leq f(n)\), tenemos:
+$$
+c_f' \leq \frac{f(n)}{f(n)} \quad \mbox{por lo tanto} \quad c_f' \leq 1
+$$
+de donde se observa que la condición se cumple para toda \(c_f' \leq 1\). Es
+importante recordar que en el análisis de los órdenes asintóticos las constantes
+se asumen positivas, por lo que en este caso \(0 < c_f' \leq 1\).
+\subsection{Si \(f(n)\) es \(\Theta(f(n))\) entonces \(f(n)\) es \(\Theta(f(n))\)}
+\label{sec:orgdb0c2ff}
+\begin{itemize}
+\item Si \(f(n)\) es \(\Theta(f(n))\), existen las constantes \(c_f, c_f'\) y \(n_f\) tal
+que \(c_f' f(n) \leq f(n) \leq c_f f(n)\)
+\end{itemize}
+
+\noindent
+Si \(c_f = c_f' = 1\), tenemos:
+$$
+1 \cdot f(n) \leq f(n) \leq 1 \cdot f(n) \quad \mbox{para toda} \quad n
+$$
+o
+$$
+f(n) \leq f(n) \leq f(n) \quad \mbox{para toda} \quad n
+$$
+\section{Simetría}
+\label{sec:org389def5}
+\subsection{\(f(n)\) es \(\Theta(g(n))\) si y sólo si \(g(n)\) es \(\Theta(f(n))\)}
+\label{sec:org792f820}
+Tomando como cierto el antecedente, tenemos:
+\begin{itemize}
+\item Si \(f(n)\) es \(\Theta(g(n))\), existen las constantes \(c_f', c_f\) y \(n_f\) tal
+que \(c_f' g(n) \leq f(n) \leq c_f g(n)\) para toda \(n \geq n_f\)
+\end{itemize}
+
+\noindent
+Si a esta desigualdad, la separamos en dos
+$$
+c_f' g(n) \leq f(n) \quad \mbox{y} \quad f(n) \leq c_f g(n)
+$$
+si a su vez, a estas desigualdades las manipulamos algebráicamente de modo que
+despejemos a \(g(n)\), nos quedan:
+$$
+g(n) \leq \frac{1}{c_f'} f(n) \quad \mbox{y} \quad \frac{1}{c_f} f(n) \leq g(n)
+$$
+de donde se infiere que \(\frac{1}{c_f'}\) y \(\frac{1}{c_f}\) son constantes
+positivas, con lo que obtenemos
+$$
+\frac{1}{c_f} f(n) \leq g(n) \leq \frac{1}{c_f'} f(n)
+$$
+
+\noindent
+Esto cumple los requerimientos para que \(g(n)\) sea \(O(f(n))\).
+\section{Simetría Transpuesta}
+\label{sec:orgc1f3492}
+\subsection{\(f(n)\) es \(O(g(n))\) si y sólo si \(g(n)\) es \(\Omega(f(n))\)}
+\label{sec:org4b4a0c3}
+\begin{itemize}
+\item Si \(f(n)\) es \(O(g(n))\), existen las constantes \(c_f\) y \(n_f\) tal que
+\begin{itemize}
+\item \(f(n) \leq c_f g(n)\) para toda \(n \geq n_f\)
+\end{itemize}
+\end{itemize}
+
+\noindent
+Si en dicha desigualdad despejamos \(g(n)\), tenemos:
+$$
+\frac{1}{c_f} f(n) \leq g(n) \quad \mbox{para toda} \quad n \geq n_f
+$$
+se observa entonces, por definición, que \(g(n)\) es \(\Omega(g(n))\).
+\section{Aditividad}
+\label{sec:orgc3c608e}
+\subsection{Si \(f(n)\) es \(O(h(n))\) y \(g(n)\) es \(O(h(n))\), entonces \(f(n)+g(n)\) es \(O(h(n))\)}
+\label{sec:orga56e7a1}
+\begin{itemize}
+\item Si \(f(n)\) es \(O(h(n))\), existen las constantes \(c_f\) y \(n_f\) tal que
+\begin{itemize}
+\item \(f(n) \leq c_f h(n)\) para toda \(n \geq n_f\)
+\end{itemize}
+\item Si \(g(n)\) es \(O(h(n))\), existen las constantes \(c_g\) y \(n_g\) tal que
+\begin{itemize}
+\item \(g(n) \leq c_g h(n)\) para toda \(n \geq n_g\)
+\end{itemize}
+\end{itemize}
+
+\noindent
+Si sumamos ambas desigualdades, se obtiene:
+$$
+f(n) + g(n) \leq c_f h(n) + c_g h(n) \quad \mbox{para toda} \quad
+n \geq \max{n_f, n_g}
+$$
+que al manipular algebráicamente queda:
+$$
+f(n) + g(n) \leq (c_f + c_g) h(n) \quad \mbox{para toda} \quad
+n \geq \max\{n_f, n_g\}
+$$
+
+\noindent
+Por definición, se comprueba que \(f(n) + g(n)\) es \(O(h(n))\)
+\subsection{Si \(f(n)\) es \(\Omega(h(n))\) y \(g(n)\) es \(\Omega(h(n))\), entonces \(f(n)+g(n)\) es \(\Omega(h(n))\)}
+\label{sec:org4fdfb90}
+\begin{itemize}
+\item Si \(f(n)\) es \(\Omega(h(n))\), existen las constantes \(c_f'\) y \(n_f'\) tal que
+\begin{itemize}
+\item \(c_f' h(n) \leq f(n)\) para toda \(n \geq n_f'\)
+\end{itemize}
+\item Si \(g(n)\) es \(\Omega(h(n))\), existen las constantes \(c_g'\) y \(n_g'\) tal que
+\begin{itemize}
+\item \(c_g' h(n) \leq g(n)\) para toda \(n \geq n_g'\)
+\end{itemize}
+\end{itemize}
+
+\noindent
+Si sumamos ambas desigualdades, obtenemos:
+$$
+c_f' h(n) + c_g' h(n) \leq f(n) + g(n) \quad \mbox{para toda} \quad
+    n \geq \max\{n_f', n_g'\}
+$$
+que al manipular algebráicamente queda:
+$$
+(c_f' + c_g') h(n) \leq f(n) + g(n) \quad \mbox{para toda} \quad
+    n \geq \max\{n_f', n_g'\}
+$$
+
+\noindent
+Por definición, se comprueba que \(f(n) + g(n)\) es \(\Omega(h(n))\)
+\subsection{Si \(f(n)\) es \(\Theta(h(n))\) y \(g(n)\) es \(\Theta(h(n))\), entonces \(f(n)+g(n)\) es \(\Theta(h(n))\)}
+\label{sec:org0ddcad2}
+\begin{itemize}
+\item Si \(f(n)\) es \(\Theta(h(n))\), existe las constantes \(c_f', c_f\) y \(n_f\) tal que
+\begin{itemize}
+\item \(c_f' h(n) \leq f(n) \leq c_f h(n)\) para toda \(n \geq n_f\)
+\end{itemize}
+\item Si \(g(n)\) es \(\Theta(h(n))\), existe las constantes \(c_g', c_g\) y \(n_g\) tal que
+\begin{itemize}
+\item \(c_g' h(n) \leq g(n) \leq c_g h(n)\) para toda \(n \geq n_g\)
+\end{itemize}
+\end{itemize}
+
+\noindent
+Si sumamos ambas desigualdades tenemos:
+$$
+c_f' h(n) + c_g' h(n) \leq f(n) + g(n) \leq c_f h(n) + c_g h(n)
+    \quad \mbox{para toda} \quad
+    n \geq \max\{n_f, n_g\}
+$$
+si a su vez, esta nueva desigualdad la manipulamos algebraicamente, nos queda
+$$
+(c_f' + c_g') h(n) \leq f(n) + g(n) \leq (c_f + c_h) h(n)
+    \quad \mbox{para toda} \quad
+    n \geq \max\{n_f, n_g\}
+$$
+
+\noindent
+Por definición, se comprueba que \(f(n) + g(n)\) es \(\Theta(h(n))\)
+
+
+
+\end{document}

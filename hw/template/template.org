@@ -1,0 +1,9 @@
+#+TITLE: Template
+#+AUTHOR: Marco Antonio Cardoso Moreno
+#+STARTUP:  CONTENT
+
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [letterpaper]
+#+STARTUP: latexpreview
+
+* Intr
