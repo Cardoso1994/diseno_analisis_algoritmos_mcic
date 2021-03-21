@@ -1,0 +1,582 @@
+#+TITLE: Diseño y análisis de Algoritmos
+#+AUTHOR: Cardoso Moreno Marco Antonio
+#+STARTUP:  OVERVIEW
+
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [letterpaper]
+# #+STARTUP: latexpreview
+
+* Introducción
+** Temario
+1. Introducción: Problemas representativos
+2. Fundamentos del análisis de algotritmos
+3. Grafos
+4. Dividir y vencer
+5. Algoritmos Voraces
+6. Programación dinámica
+7. Redes de flujo
+8. NP e intratabilidad computacional
+9. Extendiendo los límites de la tratabilidad
+10. Algoritmos de aproximación
+11. Búsqueda local
+12. Algoritmos aleatorios
+* Unidad 1
+** Emparejamiento Estable
+Dados un conjunto de hombres y un conjunto de mujeres, ambos del mismo tamaño,
+encontrar pareja a todos los hombres y todas las mujeres
+- Monogámamente, cada persona pertenece a una sola pareja
+- Cada persona hace una lista de preferencias, en orden descendente, que incluye
+  a todas las personas del sexo opuesto.
+
+Entonces:
+- Un emparejamiento se da cuando todas las personas están a lo más en una pareja
+- Un emparejamiento perfecto se da cuando todas las personas están exactamente
+  en una pareja
+- Un emparejamiento es estable si es un emparejamiento perfecto y no hay
+  parejas inestables
+  + Una pareja es inestable si se prefieren uno al otro sobre la pareja que
+    tienen
+
+El algoritmo de emparejamiento estable se inspira en *la búsqueda de pareja*.
+- Se considera que todas las personas están libres en un principio.
+- Se tiene un grupo de mujeres y otro de hombres, ambos de la misma dimensión,
+  cada una de las mujeres hace un /ranking/ de sus preferencias sobre los
+  hombres, es decir, los ordena de acuerdo a cual le gusta más. Lo mismo sucede
+  con los hombres y sus preferencias por las mujeres.
+- Cada hombre le propone emparejarse a la *primera* mujer en su lista
+  + Ella lo acepta si está libre
+  + Ella lo acepta si lo prefiere (de acuerdo a su lista de preferncias) sobre
+    el hombre con el que ya está
+  + Ella lo rechaza y el hombre la borra de su lista y comienza de nuevo
+A este algoritmo también se le conoce como *propuesta - rechazo*. El algoritmo
+fue presentado por Gale-Shapley en el año 1962.
+#+begin_src c
+"Initialize each person to be free";
+while ("some man is free and hasn't proposed to every woman")
+{
+    m = "Choose such a man m";
+    w = "1st woman on m's list to whom m has not yet proposed";
+    if (w isfree())
+        "assign m and w to be engaged";
+    else if ("w prefers m to he fiancé m'")
+        "assign m and w to be engaged, and m' to be free";
+    else
+        "w rejects m";
+}
+#+end_src
+
+El análisis sobre las propiedades de este algoritmo implica, a grandes rasgos,
+evaluar que éste sea correcto. Principalmente se evalúa mediante la respuesta
+a ciertos aspectos:
+- Terminación
+  + El algoritmo termina en un tiempo estimado
+  + En este caso, el algoritmo termina en a lo más $n^2$ iteraciones
+  + Demostración
+    - En cada iteración en el ciclo *while*, un hombre *le propone* a una mujer
+      distinta
+    - Tenemos *n* mujeres distintas, por tanto, cada hombre hace a lo más *n*
+      propuestas
+    - Tenemos *n* hombres, por lo que solo puede haber a lo más $n^2$ propuestas
+- Perfección
+  + El algoritmo obtiene un emparejamiento perfecto
+  + Es decir, que todos los hombres y todas las mujeres quedan con pareja
+  + Demostración (por contradicción, se basa en suponer que nuestro teorema no
+    es cierto)
+    - Supongamos que Carlos termina sin pareja
+    - Entonces, alguna mujer quedó sin pareja, por ejemplo Celia
+    - De acuerdo al algoritmo, una vez que una mujer obtiene pareja, esta ya no
+      es posible que vuelva a quedar libre
+    - Entonces, a Celia nadie le propuso emparejarse
+    - Pero, Carlos le propuso a todas las mujeres!
+- Estabilidad
+  + No hay parejas inestables
+  + Demostración (por contradicción)
+    - Supongamos que Ana-Bruno es una pareja inestable, es decir, que se
+      prefieren uno al otro sobre la pareja que les fue asignada. O sea, que no
+      están juntos
+    - Caso 1: Bruno nunca le propuso a Ana
+      + Esto pasa porque Bruno prefiere a su pareja asignada sobre Ana!
+    - Caso 2: Bruno le propuso a Ana
+      + Ana rechazó o cambió a Bruno
+      + Ana prefiere a su pareja asignada sobre Bruno!
+
+Otras propiedades que se pueden analizar:
+- ¿Para una instancia del problema pueden existir varios emparejamientos
+  estables?
+- ¿El algoritmo propuesto nos lleva a la misma solución?
+  + ¿cuál?
+  + ¿de qué depende?
+
+TARDOS - LIBRO
+Proyectos en PYTHON 3.6
+
+Boleta, Promedio, Nombre del director de tesis...
+** Problemas representativos del curso
+*** Planificación de Tareas (Interval scheduling)
+- Entrada: conjunto de tareas con tiempos de inicio y final
+- Salida: el conjunto más grande de tareas compatibles.
+
+En el ejemplo descrito en clase, se visualiza una gráfica donde se enlistan
+diversas tarea, cada una con un tiempo definido para llevarse a cabo, el
+objetivo del algoritmo en este caso debe ser, encontrar la solución que dé como
+resultado el mayor número de tareas posibles.
+
+Si, por ejemplo, se seleccionara la tarea *a*, solo podríamos seleccionar
+después de ella a las tareas *g* u *h* (una u otra, no ambas). En la siguiente
+imagen, se muestra una representación gráfica del problema, y en *azul* la
+solución optima. La solución óptima es la combinación, o el set de tareas
+*b*, *e* y *h*, ya que es la manera en que podemos llevar a cabo el mayor número
+de tareas, sin que estas se encimen entre si.
+
+\begin{figure*}
+    \centerging
+    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
+        {./img/interval_scheduling.png}
+\end{figure*}
+
+Normalmente, para dar solución a este tipo de problemas, se utiliza una familia
+de algoritmos conocidos comúnmente como *algoritmos voraces* o *greedy
+algorithms*
+
+*** Planificación de tareas con pesos (Weighted Interval Scheduling)
+- Entrada: conjunto de tarea con pesos y tiempos de inicio y final
+- Salida: el conjunto de tareas compatbiles, con el máxico peso total
+
+Lo que se busca es escoger el set de tarea que *maximicen* la ganancia.
+Manteniendo el mismo ejemplo anterior, de las tareas, y asignando un peso a
+cada una de ellas, observamos que, por ejemplo, al seleccionar la tarea *a*,
+solo podemos escoger entre las tareas *g* y *h*. La ganancia máxima sería al
+escoger las tareas *a* y *h*, lo que suma 39; sin embargo, esta no es una
+solución óptima.
+
+La solución óptima se obtiene al seleccionar las tareas *d* y *h*, ya que es la
+manera en que *maximizamos* la suma de los pesos de las tareas, y que da como
+resultado 49.
+
+\begin{figure*}
+    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
+        {./img/weighted_interval_scheduling.png}
+\end{figure*}
+
+Si, por ejemplo, quisieramos utilizar la solución al problema de *Interval
+Scheduling*, es decir, utilizar el set de tareas *b, e, h* tampoco obtendríamos
+una solución mejor que la propuesta en color azul. En este caso, la suma de las
+tres tareas es igual a 41.
+
+Es por esto, que los greedy algorithms *NO* sirven para dar solución a
+problemas de este tipo, por lo que se debe optar por otro tipo de algoritmos,
+conocidos como *Algoritmos de Programación Dinámica*
+*** Emparejamiento bipartita (Bipartite Matching)
+- Entrada: un *grafo* bipartita
+- Salida: el emparejamiento de máxima cardinalidad
+
+Un grafo bipartita es un grafo cuyos de nodos se puede separar en dos conjuntos,
+de tal forma que no hay aristas que conecten nodos del mismo conjunto. Así como
+se visualiza en la imagen. Entre letras no hay aristas que las unan entre ellas,
+lo mismo pasa con los números.
+
+\begin{figure*}
+    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
+        {./img/bipartite_graph.png}
+\end{figure*}
+
+Si relacionamos a una letra con un número, por ejemplo la letra *A* con el
+número 1, lo que evita que tanto que la letra *A* no pueda emparejarse con
+ningún otro número, como que el número 1 no pueda emparejarse con ninguna otra
+regla.
+
+Entonces, el *emparejamiento bipartita* consiste en encontrar un emparejamiento
+de *maxima cardinalidad*, es decir, el máximo número de parejas. No
+necesariamente es igual al tamaño de cada conjunto.
+
+Para este tipo de problemas se utilizan algoritmos de *redes de flujo* o
+*augmentation*
+*** Conjunto independiente (Independent Set)
+- Entrada: un grafo
+- Salida: el conjunto más grande de nodos que no están unidos por una arista
+
+En la figura se muestra en color azul, la solución al problema del conjunto
+independiente. Por otro lado, si seleccionaramos en un inicio al nodo 3, los
+nodos 1, 2, 6, 7 quedan descartados y el conjunto independiente que se forma es
+1, 4, 5. En cambio, el conjunto resaltado en azul (1, 4, 5, 6) es de mayor
+dimensión.
+
+\begin{figure*}
+    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
+        {./img/independent_set.png}
+\end{figure*}
+*** Tiempo de ejecución de los algoritmos
+- Interval Scheduling
+  + n log n -> algoritmo voraz
+- Weighted interval scheduling
+  + n log n -> programación dinámica
+- Bipartite Matching
+  + n^k -> algoritmo basado en el máximo flujo
+- Independent Set
+  + NP-completo
+
+Un problema NP-completo, es aquel que no se puede resolver de forma optima, en
+otras palabras, el problema no puede expresarse en los términos arriba
+descritos, es decir, en términos de tiempo polinomial.
+* Unidad 2 - Bases para el análisis de algoritmos
+** Tratatabilidad computacional
+- Eficiencia
+  + la relación entre los recursos utilizados en un proyectos y los logros que
+    se consiguen
+  + da cuando se utilizan menos recursos para lograr un mismo objetivo
+  + O, cuando se logran más objetivos con los mismos o menos recursos
+- Eficacia
+  + el nivel de consecución de metas y objetivos
+  + hace referencia a nuestra capacidad para lograr lo que nos proponemos
+
+En general, en el estudio de algoritmos, lo que nos es de *mayor interés* es la
+*EFICIENCIA*.
+** Tiempo de ejecución
+- Es la estimación de cuánto tiempo será necesario para que un algoritmo
+  encuentre la solución a un problema
+  + Este tiempo está dado en términos del tamaño de la entrada, es decir, es
+    una función $f(n)$, donde $n$ es el tamaño de la entrada para el agoritmo.
+- Se considera que todos los algoritmos son de búsqueda
+  + Búsqueda de la solución
+  + Búsqueda de una propiedad
+  Se tiene un estado de entrada o inicial, y el algoritmo nos lleva a un estado
+  final o de salida. Este estado final, el *el estado que estamos buscando*, el
+  cual satisface los requerimientos del algoritmo.
+** Análisis del peor caso
+- Se utiliza para obtener una cota superior del tiempo de ejecución más largo
+  posible para un algoritmo que tiene una entrada de tamaño N
+- Esto, en esencia, captura la *eficiencia*
+
+En términos coloquiales, el *análisis del peor caso* es la barrera superior del
+desempeño del algoritmo, se llega a éste cuando el algoritmo no es capaz de
+encontrar una solución, o le toma el mayor número de pasos llegar a dicha
+solución. En el caso del emparejamiento estable, el peor caso es $n^2$, ya que
+se daría cuando cada uno de los hombres se le declara a cada una de las
+mujeres.
+
+** Análisis del caso intermedio
+- Se busca tener una cota de tiempo de ejecución de un algoritmo con una entrada
+  aleatoria de tamaño N
+- Es muy difícil (si no imposible) modelar con exactitud instancias reales con
+  distribuciones aleatorias. En otras palabras, es muy difícil (si no imposible)
+  poder calcular con exactitud el caso intermedio, éste puede depender de muchos
+  factores.
+- Por otro lado, un algoritmo puede tener muy buenos resultados con una
+  distribución inicial, y pésimos resultados con otra.
+
+En el ejemplo del emparejamiento estable, el mejor caso sería f(n) = n, que se
+da cuando un hombre le propone únicamente a una mujer, para todos los hombres.
+Teniendo el mejor caso (f(n) = n), y el peor caso (f(n) = n^2), sería sencillo
+asumir que el caso intermedio sería f(n) = n^1.5, sin embargo, éste no será el
+caso siempre.
+** Fuerza Bruta
+NO ES ACEPTABLE, en la práctica, la búsqueda de una solución mediante *fuerza
+bruta*
+Video 2.1, minuto 14:10
+- Normalmente los algoritmos de fuerza bruta tienen un tiempo de ejecución $2^n$
+- En el caso del emparejamiento estable, el tiempo de ejecución es $n!$
+** Tiempo polinomial
+- Un algoritmo funciona en tiempo polinomial si su tiempo de ejecución puede
+  caracterizarse como un función polinomial de la entrada $n$. En términos
+  coloquiales, un algoritmo funciona en tiempo polinomial si su tiempo de
+  ejecución se puede escribir como un polinomio.
+- En general, se considera que los algoritmos que tienen tiempos de ejecución
+  polinomiales son *eficientes*
+  + con algunas excepciones, por ejemplo, polinomios con exponentes muy grandes
+
+*agregar tabla de Tardos* que explica el profe en el video
+** Órden de crecimiento asintótico
+Se busca caracterizar el comportamiento del tiempo de ejecución como una función
+$f(n)$, donde *n* es el tamaño de la entrada.
+
+Para facilitar esta búsqueda, se establece que es suficiente con caracterizar
+$f(n)$ con un órden de /crecimiento asintótico/, es decir una función $g(n)$ que
+describe un límite en el comportamiento de $f(n)$.
+
+En términos coloquiales esto implica que, si $f(n)$ es una función polinomial,
+$g(n)$ es un polinomio con un único término, aquel de mayor grado en $f(n)$.
+- Si $g(n)$ es un *límite superior* se dice que $f(n)$ pertenece a $O(g(n))$.
+  $O(g(n))$ representa a una familia de funciones cuyo comportamiento es acotado
+  por $g(n)$.
+  Por ejemplo, $O(n^2)$ representa a toda la familia de funciones /cuadradas/
+  de *n*.
+- Si $g(n)$ es un *límite inferior*, se dice que $f(n)$ pertenece a $\Omega(g(n))$
+- Si $g(n)$ es un *límite estrecho* para el comportamiento de $f(n)$, se dice
+  que $f(n)$ pertenece a $\Theta(g(n))$
+*** Límite superior ($O$)
+Se dice que $f(n)$ pertenece a $O(g(n))$ si existen un valor inicial $n_0$ y una
+constante /c/, tal que se cumpla que:
+- $f(n) <= c g(n)$ para toda $n >= n_0$
+
+Es decir, $c g(n)$ tiene que ser mayor que la función que describe el tiempo de
+ejecución de nuestro algoritmo, $f(n)$, a partir de un valor inicial $n_0$.
+
+\begin{figure*}
+    \includegraphics[widht=0.7\textwidth, height=0.4\textwidth]
+        {./img/limite_superior.png}
+\end{figure*}
+
+Esta caracterización nos sirve para describir el comportamiento de nuestra
+función (tiempo de ejecición) de una manera sencilla, ya que probablemente la
+función $f(n)$ tenga un comportamiento complejo.
+*** Límite inferior ($\Omega$)
+Lo mismo sucede para el caso del límite inferior. Decimos que $f(n)$ pertenece a
+$\Omega(f(n))$, si existen un valor inicial $n_0$ y una constante /c/, tal que
+- $f(n) >= c g(n)$ para toda $n >= n_0$
+Es decir, podemos caracterizar el límite inferior de $f(n)$, de manera más
+sencilla, mediante el comportamiento de $\Omega(g(n))$ si el valor de $f(n)$ es
+mayor en todo momento que el valor de $c g(n)$ a partir de un valor inicial
+$n_0$.
+
+\begin{figure*}
+    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
+        {./img/limite_inferior.png}
+\end{figure*}
+*** Límite estrecho ($\Theta$)
+Se dice que $f(n)$ pertenece a $\Theta(g(n))$ si existen las constantes $c_1$ y
+$c_2$, además de un valor inicial $n_0$ para los cuales se cumple que:
+- $c_1 g(n) <= f(n) <= c_2 g(n)$ para toda $n >= n_0$
+
+\begin{figure*}
+    \includegraphics[width=0.5\textwidth, keepaspectratio]
+        {./img/limite_estrecho.png}
+\end{figure*}
+*** Propiedades
+- Transitividad
+  + Si $f(n)$ es $O(g(n))$ y $g(n)$ es $O(h(n))$ entonces $f(n)$ es $O(h(n))$
+  + Si $f(n)$ es $\Omega(g(n))$ y $g(n)$ es $\Omega(h(n))$ entonces $f(n)$ es
+    $\Omega(h(n))$
+  + Si $f(n)$ es $\Theta(g(n))$ y $g(n)$ es $\Theta(h(n))$ entonces $f(n)$ es
+    $\Theta(h(n))$
+- Reflexividad
+- Simetría
+- Simetría transpuesta
+- Aditividad
+
+*** Demostraciones
+- implicacion: entonces (==>)
+- si y solo si (==>, <==), si uno es cierto, el otro tambien es cierto, se debe
+  hacer la demostración en ambos sentidos
+  TAREA EN PDF, GENERADO EN LATEX
+** Compilación de tiempos de ejecución comunes
+*** Tiempo constante /O(1)/ o $O(n^0)$
+- El tiempo de ejecución *no depende* del tamaño de la entrada
+- Ejemplos:
+  + Dado un arreglo ordenado d /N/ elementros, devolver el elemento más grande
+  + Dado un arreglo de /N/ elementos, devolver los primeros /K/ elementos
+*** Tiempo sublineal $O(\log n)$
+- El tiempo de ejecución es muy eficiente ya que crece muy poco con respecto al
+  tamaño de la entrada.
+- Ejemplo:
+  + /Binary search/: Dado un arreglo ordenado de elementos, realizar la búsqueda
+    de un elemento en particular. El siguiente bloque de código muestra un
+    código de /binary search/ en lenguaje /python/.
+#+begin_src python -n
+import math
+
+def binary_search_iter(A, x, left, right):
+    """
+    A = array of numbers
+    x = number to search for
+    left, right = begining and end of array, respectively
+    """
+    while (left <= right):
+        middle = (left + right) / 2 # O(1) no depende del tamaño N
+        if A[middle] == x:          # O(1) no depende del tamaño N
+            return middle           # O(1) no depende del tamaño N
+        elif A[middle] > x:         # O(1) no depende del tamaño N
+            right = middle - 1      # O(1) no depende del tamaño N
+        else:
+            left = middle + 1       # O(1) no depende del tamaño N
+
+    return -1                       # O(1) no depende del tamaño N
+#+end_src
+
+El código se puede analizar mediante un técnica conocida como *ley de sumas*. Se
+observa que todas las operaciones dentro del ciclo =while= son $O(1)$ (no
+depende de la entrada), por lo que la ejecución del ciclo es en tiempo
+constante. Sin embargo, el número de veces que se ejecuta el ciclo =while= es
+variable, ya que en cada iteración (en las líneas 14 y 16) se desplaza alguno de
+los pivotes a la mitad del espacio de búsqueda, por lo que en cada iteración
+se reduce a la mitad el espacio de búsqueda (inicialmente el array completo).
+- $N$, $\frac{N}{2}$, $\frac{N}{4}$, $\frac{N}{8}$, $\cdots$, $1$
+
+La función logarítmica nos indica cuántas veces podemos dividir un número entre
+la base del logaritmo, en el caso de la /binary search/ el número de veces que
+se ejecuta el ciclo =while= es $\log_2(n)$. Si observamos que tenemos dentro de
+éste seis operaciones $O(1)$, y que el =return= es de igual manera $O(1)$,
+tenemos que:
+$$
+f(n) = 6 \log_2(n) + 1 \therefore f(n) \in O(log(n))
+$$
+*** Tiempo lineal /O(n)/
+- El tiempo de ejecución es, a lo más, un factor de tiempo constante por el
+  tamaño de la entrada.
+- Ejemplo:
+  + calcular el máximo de un conjunto de números
+    $A = \{a_1, a_2, \cdots, a_n\}$. El siguiente bloque de código muestra el
+    algoritmo.
+#+begin_src python -n
+max = a[0]              # O(1)
+for i in range(1, n):
+    if a[i] > max:      # O(1)
+        max = a[i]      # O(1)
+#+end_src
+
+    Se observa que el ciclo =for= se ejecuta $n-1$ veces, y que dentro de él hay dos
+    operaciones de tiempo lineal. Además, la primer asignación =max = a[0]= tambien
+    se ejecuta en tiempo lineal, lo que nos da como resultado:
+    $$
+    f(n) = 2 \left(n -1\right) + 1 = 2n - 1 \therefore f(n) \in O(n)
+    $$
+  + Combinar dos conjuntos de números ordenados $A = \{a_1, a_2, \cdots, a_n\}$ y
+    $B = \{b_1, b_2, \cdots, b_m\}$. A este algoritmo se le conoce como /merge
+    sort/, la figura [[fig:merge_sort_lineal]] muestra un esquema gráfico del algoritmo
+
+    #+NAME: fig:merge_sort_lineal
+    #+CAPTION: Esquema gráfico del algoritmo /merge sort/
+    #+ATTR_LATEX: :placement [htbp!] :width 0.4\textwidth :options keepaspectratio
+    [[./img/merge_sort_lineal.png]]
+
+    El algoritmo se puede expresar como:
+    #+begin_src c
+i = 0;
+j = 0;
+
+while (i < len_a && j < len_b)
+{
+    if (a[i] < b[j])
+    {
+        merged[i + j] = a[i];
+        i++;
+    }
+        else
+    {
+        merged[i + j] = b[j];
+        j++;
+    }
+}
+
+if (i < len_a)
+    // append rest of a to merged
+else if (j < len_b)
+    // append rest of b to merged
+
+return (merged);
+    #+end_src
+
+    El algoritmo comienza con los arrays /a/ y /b/, utilizando los índices /i/ y
+    /j/ para avanzar sobre /a/ y /b/ respectivamente. En cada iteración del loop
+    =while= comparamos los elementos de cada array, el que sea mayor es agregado
+    al arreglo =merged=, y se incrementa el índice correspondiente. Este proceso
+    continúa hasta que se haya acabado con alguno de los arrays /a/ y /b/.
+
+    Las asignaciones que anteceden al ciclo =while= son tiempo constante
+    $f(n) = 1$, y son dos de ellas. Dentro del ciclo =while=, las tareas de
+    comparación, asignar los elementos al array =merged= y el incremento, son
+    tres operaciones $f(n) = 1$, como el condicional =if= es excluyente, no
+    importa qué rama es la que se toma, el valor es 3 de igual modo. El ciclo
+    =while=, por su lado, se ejecuta $2n - 1$ veces en el peor de los casos,
+    si es que siempre se intercalan los valores de /a/ y /b/. Y por último,
+    agregar el resto de una de las dos listas, tiene un costo, en el peor caso,
+    de $n$, que se da si todos los elementos de una lista, son menores al
+    primer elemento de la otra lista, por lo que se agregaría la lista menor,
+    entera, primero y posteriormente la segunda, completa.
+
+    El coste total entonces es:
+    $$
+    f(n) = 2 + (2n - 1) + n = 3n - 1 \Rightarrow f(n) \in O(n)
+    $$
+
+    La demostración formal se lleva a cabo de la siguiente manera:
+    + El conjunto /A/ se vacía:
+      - En el mejor caso, en /n/ iteraciones
+        + Todos los elementos del conjunto /A/ son menores que el primer
+          elemento del conjunto /B/
+      - En el peor de los casos, en $2n$ iteraciones
+        + El primer elemento de /A/ es mayor que todos los elementos de /B/
+    + El conjunto /B/ se vacía:
+      - En el mejor caso, en $2n$ iteraciones
+        + Todos los elementos del conjunto /A/ son menores que el primer
+          elemento del conjunto /B/
+      - En el peor de los casos, en $2n$ iteraciones
+        + El primer elemento de /A/ es mayor que todos los elementos de /B/
+*** Tiempo logarítmico $O(n \log n)$
+Surge en los algoritmos /divide and conquer/
+- Ordenar un conjunto /n/ de números
+  + Mergesort
+  + Heapsort
+- Encontrar el camino, en un grafo, más corto desde un nodo hacia todos los
+  demás nodos
+
+La figura [[fig:merge_sort]] muestra un esquema gráfico del algoritmo /mergesort/.
+En esta se observa que se comienza haciendo particiones del array que se va a
+ordenar, este proceso es recursivo hasta que nos quedamos con arrays con un solo
+elemento, una vez que se llega a este punto, comenzamos a regresar hacia el
+array original pero esta vez ordenando los elementos de cada uno de los arrays.
+Se considera que un arreglo de talla uno está ordenado, se hace el /merge/
+(el algoritmo descrito en el tiempo de ejecución lineal)  para obtener arrays de
+talla dos, los cuales *ya están ordenados*, y se continúa este proceso; ahora se
+mezclan arrays de talla dos para obtener arrays ordenados de talla 4, y así
+sucesivamente.
+
+#+NAME: fig:merge_sort
+#+CAPTION: Representación gráfica del algoritmo /mergesort/
+#+ATTR_LATEX: :placement [htbp!] :width 0.4\textwidth :options keepaspectratio
+[[./img/merge_sort.png]]
+
+En el primer piso del arbol (de abajo hacia arriba), cada mezcla requiere dos
+operaciones; en el cuarto piso cada mezcla cuesta cuatro operaciones, y en el
+tercer piso la mezcla cuesta ocho. Si observamos de manera detenida, observamos
+que en realidad en cada piso requerimos /n/ operaciones. En el primero, una
+mezcla cuesta dos operaciones, y son 4 mezclas, esto es: $n = 4 \cdot 2$; en el
+segundo piso, son dos mezclas, que requiere cuatro operaciones, esto es:
+$n = 2 \cdot 4$ y en el tercer y último piso, se hace una sola mezcla que cuesta
+ocho operaciones, esto es: $n = 1 \cdot 8$.
+
+De esto concluimos que cada piso requiere /n/ operaciones; la siguiente pregunta
+que queda por resolver es: ¿cuántas divisiones se van a hacer al arreglo
+inicial?. La respuesta, como ya se ha mencionado es $\log_2(n)$, ya que el
+logaritmo nos indica cuántas veces se puede dividir un número /n/ entre la base,
+en este caso, dos, ya que en cada división dividimos el array a la mitad.
+
+De todo esto observamos que el tiempo de ejecución del algoritmo /mergesort/ es
+$$
+O(n \log_2 n)
+$$
+*** Tiempo cuadrático $O(n^2)$
+El tiempo cuadrático $O(n^2)$ crece de manera parabólica conforme
+el tamaño de la entrada al algoritmo aumenta. Ejemplos de algoritmos con tiempo
+cuadrático de ejecución son:
+- Enumeración de todos los pares de elementos
+  + Emparejamiento estable
+  + Simulación gravitatoria
+- Encontrar el par de puntos más cercano
+  + Dada una lista de puntos, encontrar los dos que se encuentran más cerca.
+*** Tiempo cúbico $O(n^3)$
+Estos algoritmos crecen como una función cúbica conforme su entrada aumenta. Por
+ejemplo:
+- Enumeración de todos los tríos de elementos
+- Determinar si /n/ conjuntos son disjuntos
+  + Dados /n/ conjuntos $S_1, S_2, \cdots, S_n$ cada cual es subconjunto de
+    $\{1, 2, \cdots, n\}$, determinar si existe algún par de conjuntos que
+    sean disjuntos.
+#+begin_src c
+for (each_set_Si)
+{
+    for(each_set_Sj)
+    {
+        for(each_element_p_of_Si)
+            // determine whether p also belongs to Sj
+    }
+    if (no_element_of_Si_belongs_to_Sj)
+        // report that Si and Sj are disjoint
+}
+#+end_src
+*** Tiempo polinomial $O(n^k)$
+El tiempo polinomial es una generalización de los tiempos de ejecución cúbicos y
+cuadráticos, donde /k/ representa una potencia positiva de /n/. Ejemplos:
+- Conjunto independiente
+  + ¿Dado un grafo, existen /k/ nodos tales que no están unidos por una
+    arista?
+  + Solución de tiempo de $O(n^k)$
