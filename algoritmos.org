@@ -1,10 +1,50 @@
 #+TITLE: Diseño y análisis de Algoritmos
 #+AUTHOR: Cardoso Moreno Marco Antonio
-#+STARTUP:  OVERVIEW
+#+STARTUP:  CONTENT
+#+LANGUAGE: es
+#+OPTIONS: toc:nil
+#+OPTIONS: title:nil
+#+OPTIONS: author:nil
 
 #+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [letterpaper]
-# #+STARTUP: latexpreview
+#+LATEX_CLASS_OPTIONS: [letterpaper, 12pt]
+#+LATEX_HEADER: \usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2.5cm]{geometry}
+# Índice sin númeración
+#+LATEX_HEADER: \setcounter{secnumdepth}{0}
+
+# español
+#+LATEX_HEADER: \usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+# non ASCII chars
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{caption}
+#+LATEX_HEADER: \usepackage{subcaption}
+#+LATEX_HEADER: \usepackage{physics}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{gensymb}
+#+LATEX_HEADER: \usepackage{siunitx}
+
+# code blocks
+#+LATEX_HEADER: \usepackage{listings}
+# insert pdf as images
+#+LATEX_HEADER: \usepackage{pdfpages}
+#+LATEX_HEADER: \usepackage{cite} % referencias y bibliografía
+#+LATEX_HEADER: \usepackage{babelbib}
+#+LATEX_HEADER: \usepackage{enumerate}
+
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\listfigurename}{Índice de Figuras}}
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\contentsname}{Índice}}
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\listtablename}{Índice de Tablas}}
+#+LATEX_HEADER: \pagestyle{plain}
+
+#+LATEX_HEADER: \usepackage{eso-pic}
+#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
+#+LATEX_HEADER: \providecommand\phantomsection{}
+
+# for references to equations, figures, etc
+#+LATEX_HEADER: \usepackage{cleveref}
+
+#+LATEX_HEADER: \newcommand{\parg}{\par \hfill \break}
 
 * Introducción
 ** Temario
@@ -128,11 +168,10 @@ solución optima. La solución óptima es la combinación, o el set de tareas
 *b*, *e* y *h*, ya que es la manera en que podemos llevar a cabo el mayor número
 de tareas, sin que estas se encimen entre si.
 
-\begin{figure*}
-    \centerging
-    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
-        {./img/interval_scheduling.png}
-\end{figure*}
+#+name: fig:interval_scheduling
+#+caption: Interval Scheduling. Graphical representation
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/interval_scheduling.png]]
 
 Normalmente, para dar solución a este tipo de problemas, se utiliza una familia
 de algoritmos conocidos comúnmente como *algoritmos voraces* o *greedy
@@ -153,10 +192,10 @@ La solución óptima se obtiene al seleccionar las tareas *d* y *h*, ya que es l
 manera en que *maximizamos* la suma de los pesos de las tareas, y que da como
 resultado 49.
 
-\begin{figure*}
-    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
-        {./img/weighted_interval_scheduling.png}
-\end{figure*}
+#+name: fig:weighted_interval_scheduling
+#+caption: Weighted Interval Scheduling. Representación gráfica
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/weighted_interval_scheduling.png]]
 
 Si, por ejemplo, quisieramos utilizar la solución al problema de *Interval
 Scheduling*, es decir, utilizar el set de tareas *b, e, h* tampoco obtendríamos
@@ -175,10 +214,10 @@ de tal forma que no hay aristas que conecten nodos del mismo conjunto. Así como
 se visualiza en la imagen. Entre letras no hay aristas que las unan entre ellas,
 lo mismo pasa con los números.
 
-\begin{figure*}
-    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
-        {./img/bipartite_graph.png}
-\end{figure*}
+#+name: fig:bipartite_graph
+#+caption: Bipartite graph
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/bipartite_graph.png]]
 
 Si relacionamos a una letra con un número, por ejemplo la letra *A* con el
 número 1, lo que evita que tanto que la letra *A* no pueda emparejarse con
@@ -201,10 +240,10 @@ nodos 1, 2, 6, 7 quedan descartados y el conjunto independiente que se forma es
 1, 4, 5. En cambio, el conjunto resaltado en azul (1, 4, 5, 6) es de mayor
 dimensión.
 
-\begin{figure*}
-    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
-        {./img/independent_set.png}
-\end{figure*}
+#+name: fig:indepedent_set
+#+caption: Conjunto Independiente
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/independent_set.png]]
 *** Tiempo de ejecución de los algoritmos
 - Interval Scheduling
   + n log n -> algoritmo voraz
@@ -284,7 +323,12 @@ Video 2.1, minuto 14:10
   polinomiales son *eficientes*
   + con algunas excepciones, por ejemplo, polinomios con exponentes muy grandes
 
-*agregar tabla de Tardos* que explica el profe en el video
+La figura [[fig:tabla_tiempos_ejecucion]] muestra una comparación de los
+tiempos de ejecución con respecto al tamaño de la entrada del algoritmo.
+#+name: fig:tabla_tiempos_ejecucion
+#+caption: Comparación de los tiempos de ejecución en función de la entrada
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/tabla_tiempos_ejecucion.png]]
 ** Órden de crecimiento asintótico
 Se busca caracterizar el comportamiento del tiempo de ejecución como una función
 $f(n)$, donde *n* es el tamaño de la entrada.
@@ -311,10 +355,10 @@ constante /c/, tal que se cumpla que:
 Es decir, $c g(n)$ tiene que ser mayor que la función que describe el tiempo de
 ejecución de nuestro algoritmo, $f(n)$, a partir de un valor inicial $n_0$.
 
-\begin{figure*}
-    \includegraphics[widht=0.7\textwidth, height=0.4\textwidth]
-        {./img/limite_superior.png}
-\end{figure*}
+#+name: fig:limite_superior
+#+caption: Limite superior $O$
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/limite_superior.png]]
 
 Esta caracterización nos sirve para describir el comportamiento de nuestra
 función (tiempo de ejecición) de una manera sencilla, ya que probablemente la
@@ -328,19 +372,19 @@ sencilla, mediante el comportamiento de $\Omega(g(n))$ si el valor de $f(n)$ es
 mayor en todo momento que el valor de $c g(n)$ a partir de un valor inicial
 $n_0$.
 
-\begin{figure*}
-    \includegraphics[width=0.7\textwidth, height=0.4\textwidth]
-        {./img/limite_inferior.png}
-\end{figure*}
+#+name: fig:limite_inferior
+#+caption: Limite inferior $\Omega$
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/limite_inferior.png]]
 *** Límite estrecho ($\Theta$)
 Se dice que $f(n)$ pertenece a $\Theta(g(n))$ si existen las constantes $c_1$ y
 $c_2$, además de un valor inicial $n_0$ para los cuales se cumple que:
 - $c_1 g(n) <= f(n) <= c_2 g(n)$ para toda $n >= n_0$
 
-\begin{figure*}
-    \includegraphics[width=0.5\textwidth, keepaspectratio]
-        {./img/limite_estrecho.png}
-\end{figure*}
+#+name: fig:limite_estrecho
+#+caption: Límite estrecho $\Theta$
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/limite_estrecho.png]]
 *** Propiedades
 - Transitividad
   + Si $f(n)$ es $O(g(n))$ y $g(n)$ es $O(h(n))$ entonces $f(n)$ es $O(h(n))$
@@ -357,7 +401,6 @@ $c_2$, además de un valor inicial $n_0$ para los cuales se cumple que:
 - implicacion: entonces (==>)
 - si y solo si (==>, <==), si uno es cierto, el otro tambien es cierto, se debe
   hacer la demostración en ambos sentidos
-  TAREA EN PDF, GENERADO EN LATEX
 ** Compilación de tiempos de ejecución comunes
 *** Tiempo constante /O(1)/ o $O(n^0)$
 - El tiempo de ejecución *no depende* del tamaño de la entrada
