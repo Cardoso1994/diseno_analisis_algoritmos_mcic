@@ -1,0 +1,112 @@
+% Created 2021-03-31 mié 01:34
+% Intended LaTeX compiler: pdflatex
+\documentclass[letterpaper, 12pt]{article}
+\usepackage[hidelinks]{hyperref}
+\usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2.5cm]{geometry}
+\setcounter{secnumdepth}{0}
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{cite} % referencias y bibliografía
+\usepackage{babelbib}
+\usepackage{enumerate}
+\addto{\captionsspanish}{\renewcommand*{\listfigurename}{Índice de Figuras}}
+\addto{\captionsspanish}{\renewcommand*{\contentsname}{Índice}}
+\addto{\captionsspanish}{\renewcommand*{\listtablename}{Índice de Tablas}}
+\pagestyle{plain}
+\usepackage{eso-pic}
+\usepackage[hidelinks]{hyperref}
+\providecommand\phantomsection{}
+\usepackage{cleveref}
+\newcommand{\parg}{\par \hfill \break}
+\newcommand{\tarea}{Tarea 02: Demostraciones de propiedades de
+los algoritmos BFS y DFS}
+\newcommand{\fecha}{30-marzo-2021}
+\date{\today}
+\title{Tarea 02}
+\hypersetup{
+ pdfauthor={Marco Antonio Cardoso Moreno},
+ pdftitle={Tarea 02},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.5)}, 
+ pdflang={Spanish}}
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+  \AddToShipoutPictureBG*{
+    \includegraphics[width=\paperwidth,height=\paperheight]
+        {../../portada/portada.pdf}}
+        \vspace*{2mm}
+        \rule{\textwidth}{1.5pt}\\
+        \vspace*{5mm}
+        \textbf{\Large INSTITUTO POLITÉCNICO NACIONAL}\\
+        \vspace*{8mm}
+        {\Large Centro de Investigación en Computación}\\
+        \vspace{8mm}
+        {\Large Maestría en Ciencias en Ingeniería de Cómputo}\\
+        \vspace{19mm}
+        {\Large Diseño y Análisis de Algoritmos}\\
+        \vspace{49mm}
+
+
+
+
+        \textbf{\large \tarea}\\
+
+
+
+
+
+        \vspace*{48mm}
+        {\large Docente: Dr. Rolando Quintero Téllez}\\
+        \vspace*{20mm}
+        {\large Alumno: Cardoso Moreno Marco Antonio}\\
+        \vspace*{10mm}
+        \rule{\textwidth}{1.5pt}\\
+        {\large Semestre A21} \hfill {\large Fecha: \fecha}
+    \end{center}
+\end{titlepage}
+
+\section{Demostrar}
+\label{sec:orgdec23af}
+\subsection{Sea \emph{T} el árbol BFS del grafo \(G=(V, E)\), y sea \((x, y)\) una arista en \emph{T}, entonces el nivel de x y y difiere en 1.}
+\label{sec:orgdcd39f4}
+Abordando la demostración mediante contradicción, supongamos que:
+\begin{itemize}
+\item \emph{x} pertenece a la capa \(L_i\), y que \emph{y} pertenece a la capa \(L_j\)
+\item \(\abs{i - j} > 1\), es decir, que la distancia entre capas es mayor a 1
+\item se llega al punto en el que todas las aristas incidentes a \emph{x} se han examinado
+\item los nodos descubiertos desde \emph{x} deben pertenecer a la capa \(L_{i+1}\) o a
+alguna capa anterior.
+\item por lo tanto, si \emph{y} es un nodo vecino de \emph{x}, debe haber sido descubierto en
+este momento como última instancia, o antes.
+\end{itemize}
+\subsection{Sea \(T\) un árbol DFS, sean \(u\) y \(v\) nodos en \(T\) y sea \((u, v)\) una arista en el grago \(G\) que no existe en \(T\). Entonces \(u\) es ancestro de \(v\) o \(v\) es ancestro de \(u\)}
+\label{sec:org81c4307}
+\begin{itemize}
+\item Si \((u, v)\) es una arista de \(G\) que no está presente en \(T\)
+\item Asumamos a su vez que primero se llega al nodo \(u\)
+\item Durante una llamada recursiva a la función \(DFS(u)\), se analiza la arista
+\((u, v)\), ésta no es agregada al árbo \(T\) porque \(v\) es marcado como
+\guillemotleft{}explorado\guillemotright{} duante esta llamada recursiva
+\item por lo tanto, si el nodo \(v\) no estaba marcado como \guillemotleft{}explorado\guillemotright{} al iniciar el
+llamado recursivo \(DFS(u)\), pero si al final de éste, se infiere que el nodo \(v\) fue descubierto durante \(DFS(u)\).
+\item retomando lo explicado en la presentación \guillemotleft{}ADA - Unidad 3\guillemotright{}, una de las
+propiedades de la búsqueda en profundidad es:
+\begin{itemize}
+\item \guillemotleft{}Para una llamada \(DFS(u)\), todos los nodos marcados como \emph{explorados} entre
+la invocación y el regreso, son  descendientes de \(u\) en el árbol \(T\)\guillemotright{}
+\end{itemize}
+\item de los últimos dos puntos, se concluye que \(v\) es un descendiente de \(u\)
+\end{itemize}
+\end{document}

@@ -1,0 +1,81 @@
+#+TITLE: Tarea 02
+#+AUTHOR: Marco Antonio Cardoso Moreno
+#+STARTUP:  CONTENT
+
+#+LANGUAGE: es
+#+EXPORT_FILE_NAME: tarea_02
+#+OPTIONS: toc:nil
+#+OPTIONS: title:nil
+#+OPTIONS: author:nil
+
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [letterpaper, 12pt]
+
+#+LATEX_HEADER: \usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2.5cm]{geometry}
+# Índice sin númeración
+#+LATEX_HEADER: \setcounter{secnumdepth}{0}
+
+# español
+#+LATEX_HEADER: \usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+# non ASCII chars
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{caption}
+#+LATEX_HEADER: \usepackage{subcaption}
+#+LATEX_HEADER: \usepackage{physics}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{gensymb}
+#+LATEX_HEADER: \usepackage{siunitx}
+
+# code blocks
+#+LATEX_HEADER: \usepackage{listings}
+# insert pdf as images
+#+LATEX_HEADER: \usepackage{pdfpages}
+#+LATEX_HEADER: \usepackage{cite} % referencias y bibliografía
+#+LATEX_HEADER: \usepackage{babelbib}
+#+LATEX_HEADER: \usepackage{enumerate}
+
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\listfigurename}{Índice de Figuras}}
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\contentsname}{Índice}}
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\listtablename}{Índice de Tablas}}
+#+LATEX_HEADER: \pagestyle{plain}
+
+#+LATEX_HEADER: \usepackage{eso-pic}
+#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
+#+LATEX_HEADER: \providecommand\phantomsection{}
+
+# for references to equations, figures, etc
+#+LATEX_HEADER: \usepackage{cleveref}
+
+#+LATEX_HEADER: \newcommand{\parg}{\par \hfill \break}
+
+# DATOS DE PORTADA
+#+LATEX_HEADER: \newcommand{\tarea}{Tarea 02: Demostraciones de propiedades de
+#+LATEX_HEADER:         los algoritmos BFS y DFS}
+#+LATEX_HEADER: \newcommand{\fecha}{30-marzo-2021}
+
+#+INCLUDE: "./caratula.tex"
+
+* Demostrar
+** Sea /T/ el árbol BFS del grafo $G=(V, E)$, y sea $(x, y)$ una arista en /T/, entonces el nivel de x y y difiere en 1.
+Abordando la demostración mediante contradicción, supongamos que:
+- /x/ pertenece a la capa $L_i$, y que /y/ pertenece a la capa $L_j$
+- $\abs{i - j} > 1$, es decir, que la distancia entre capas es mayor a 1
+- se llega al punto en el que todas las aristas incidentes a /x/ se han examinado
+- los nodos descubiertos desde /x/ deben pertenecer a la capa $L_{i+1}$ o a
+  alguna capa anterior.
+- por lo tanto, si /y/ es un nodo vecino de /x/, debe haber sido descubierto en
+  este momento como última instancia, o antes.
+** Sea $T$ un árbol DFS, sean $u$ y $v$ nodos en $T$ y sea $(u, v)$ una arista en el grago $G$ que no existe en $T$. Entonces $u$ es ancestro de $v$ o $v$ es ancestro de $u$
+- Si $(u, v)$ es una arista de $G$ que no está presente en $T$
+- Asumamos a su vez que primero se llega al nodo $u$
+- Durante una llamada recursiva a la función $DFS(u)$, se analiza la arista
+  $(u, v)$, ésta no es agregada al árbo $T$ porque $v$ es marcado como
+  "explorado" duante esta llamada recursiva
+- por lo tanto, si el nodo $v$ no estaba marcado como "explorado" al iniciar el
+  llamado recursivo $DFS(u)$, pero si al final de éste, se infiere que el nodo $v$ fue descubierto durante $DFS(u)$.
+- retomando lo explicado en la presentación "ADA - Unidad 3", una de las
+  propiedades de la búsqueda en profundidad es:
+  + "Para una llamada $DFS(u)$, todos los nodos marcados como /explorados/ entre
+    la invocación y el regreso, son  descendientes de $u$ en el árbol $T$"
+- de los últimos dos puntos, se concluye que $v$ es un descendiente de $u$

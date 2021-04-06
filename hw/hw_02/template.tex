@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Author: Marco Antonio Cardoso Moreno
+% email: marcoacardosom@gmail.com
+%
+% Template para las tareas de la asignatura Clasificación Inteligente de
+%       Patrones
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \documentclass[letterpaper, openright, 12pt]{book}
+\documentclass[letterpaper, 12pt]{article}
+
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel} % spanish
+\usepackage[utf8]{inputenc} % for any non ASCII characters
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{physics} % simbolos matemáticos
+\usepackage{amsmath} % mejora en fórmulas  matemáticas(aligns)
+\usepackage{gensymb} % typesetting units (degrees, etc)
+\usepackage{siunitx} % scientific notation and other stuff
+
+
+\usepackage{listings} % for code blocks
+\usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2.5cm]{geometry}
+
+\usepackage{pdfpages} % insert pdf as images
+\usepackage{cite} % referencias y bibliografía
+\usepackage{babelbib}
+
+\usepackage{enumerate} %listas
+
+% Cambiar el titulo por default de los indices
+\addto{\captionsspanish}{\renewcommand*{\listfigurename}{Índice de Figuras}}
+\addto{\captionsspanish}{\renewcommand*{\contentsname}{Índice}}
+\addto{\captionsspanish}{\renewcommand*{\listtablename}{Índice de Tablas}}
+
+% cambia nombre de Bibliografía a Referencias
+% \renewcommand\bibname{Referencias}
+
+% define estilo de cabeceras, número de páginas, etc
+\pagestyle{plain}
+
+% water mark images
+% \usepackage[firstpageonly]{draftwatermark}
+\usepackage{eso-pic}
+
+% for phantom section across the whole document. Better hyperrefs
+\usepackage[hidelinks]{hyperref}
+\providecommand\phantomsection{}
+
+% for references to equations, fiugres, etc
+\usepackage{cleveref}
+
+% new paragraph
+\newcommand{\parg}{\par \hfill \break}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Document
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% carátula
+\begin{titlepage}
+\begin{center}
+  \AddToShipoutPictureBG*{
+    \includegraphics[width=\paperwidth,height=\paperheight]
+        {../../portada/portada.pdf}}
+        \vspace*{2mm}
+        \rule{\textwidth}{1.5pt}\\
+        \vspace*{5mm}
+        \textbf{\Large INSTITUTO POLITÉCNICO NACIONAL}\\
+        \vspace*{8mm}
+        {\Large Centro de Investigación en Computación}\\
+        \vspace{8mm}
+        {\Large Maestría en Ciencias en Ingeniería de Cómputo}\\
+        \vspace{19mm}
+        {\Large Diseño y Análisis de Algoritmos}\\
+        \vspace{49mm}
+
+
+
+
+        \textbf{\large Título Tarea}\\
+
+
+
+
+
+        \vspace*{48mm}
+        {\large Docente: Dr.\ Rolando Quintero Téllez}\\
+        \vspace*{20mm}
+        {\large Alumno: Cardoso Moreno Marco Antonio}\\
+        \vspace*{10mm}
+        \rule{\textwidth}{1.5pt}\\
+        {\large Semestre A21} \hfill {\large Fecha: PONER FECHA}
+    \end{center}
+\end{titlepage}
+
+\newpage
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{Roman}
+
+
+\clearpage
+\tableofcontents
+% \cleardoublepage
+
+\clearpage
+\addcontentsline{toc}{section}{Índice de Figuras}
+\listoffigures
+
+\clearpage
+\addcontentsline{toc}{section}{Índice de Tablas}
+\listoftables
+
+\clearpage
+\pagenumbering{arabic}
+\section*{Introducción}
+\addcontentsline{toc}{section}{Introducción}
+\noindent
+Tu introducción aquí.
+
+\clearpage
+\section*{Desarrollo}
+\addcontentsline{toc}{section}{Desarrollo}
+
+\subsection*{Instrucciones}
+\addcontentsline{toc}{subsection}{Instrucciones}
+\subsection*{1. Primer Instruccion}
+\addcontentsline{toc}{subsection}{1. Primer Instruccion}
+\subsubsection*{1.1 }
+\addcontentsline{toc}{subsubsection}{1.1 }
+\noindent
+Desarrollo del trabajo aquí. \cite{tj-chung}
+
+\clearpage
+\section*{Conclusiones}
+\addcontentsline{toc}{section}{Conclusiones}
+\noindent
+Tus conclusiones aquí.
+
+\clearpage
+\addcontentsline{toc}{section}{Referencias}
+\bibliography{referencias}
+\bibliographystyle{babunsrt}
+
+
+
+
+\end{document}
