@@ -623,3 +623,206 @@ cuadráticos, donde /k/ representa una potencia positiva de /n/. Ejemplos:
   + ¿Dado un grafo, existen /k/ nodos tales que no están unidos por una
     arista?
   + Solución de tiempo de $O(n^k)$
+* Unidad 3 - Grafos
+** Definiciones básicas y Aplicaciones
+- un grafo (del griego /graphos/: dibujo o imagen) es un conjunto de objetos
+  llamados vértives o nodos, unidos por enlaces llamados aristas o arcos.
+- Permiten represnetar relaciones binarias entre elementos del conjunto de
+  vertices
+- Son el objeto de estudio de la teoría de grafos
+- Típicamente, un grafo se representa gráficamente como un conjunto de puntos
+  (vértices o nodos) unidos por líneas (aristas).
+
+Los grafos nos permiten estudias las relaciones que existen entre unidades. Por
+ejemplo, las redes de computadoras. En general, los grafos pueden aplicarse a
+cualquier problema donde existan relaciones entre elementos.
+
+- Un grafo es un par $G = (V, E)$, donde /V/ es un conjunto de vértices o nodos
+  y /E/ es un conjunto de aristas o arcos que relacionan a dichos nodos.
+- Se llama *orden del grafo /G/* al número de vértices que tiene, es decir, la
+  cardinalidad del conjunto /V/, es decir $\mid V \mid$.
+- El grado $\deg(v)$ de un nodo $v \in V$ es el número de aristas que están
+  conectadas a él.
+- Por convención:
+  + $n = \mid V \mid$
+  + $m = \mid E \mid$
+** Grafo no dirigido
+En un grafo no dirigido, las aristas que conectan a los nodos no tienen una
+dirección, lo que implica que la relación en este tipo de grafos se da en
+ambos sentidos, es decir, si existe una arista $\{2, 3\}$, implica que el nodo
+$2$ tiene una relación con el nodo $3$, y viceversa. Un ejemplo cotidiano de
+este tipo de relación, es la "amistad" en Facebook. Si el usuario $2$ es amigo
+del usuario $3$, implica forzosamente que el usuario $3$ es amigo del usuario
+$2$.
+
+- Un grafo no dirido es un grafo $G = (V, E)$, donde:
+  + $V \neq \emptyset$, es decir /V/ no está vacío
+  + $E \subseteq \{x \mid x \in P(V), \mid x \mid = 2\}$, es decir, el conjunto
+    de aristas /E/ es un subconjunto del /powerset/ de /V/, para el cual, todos
+    sus elementos tiene cardinalidad igual a 2.
+*Ejemplo* $V = \{1, 2, 3, 4, 5, 6\}$,
+$E = \{\{1, 2\}, \{1, 5\}, \{2, 3\}, \{2, 5\}, \{3, 4\}, \{4, 5\}, \{4, 6\}\}$
+#+name: fig:grafo_no_dirigido
+#+caption: Grafo no dirigido
+#+attr_latex: :placement [htbp!] :width 0.8\textwidth :options keepaspectratio
+[[./img/grafo_no_dirigido.png]]
+** Grafo dirigido
+En un grafo dirigido, las aristas si poseen la propiedad de dirección, es decir
+que, la relación $(2, 3)$ implica que $2$ está relacionado con $3$, pero no nos
+dice nada con respectoa la relación de $3$ con $2$. Un ejemplo de este tipo de
+relación se da en Twitter o Instagram, donde una persona $2$ puede seguir a una
+persona $3$, y esto no implica que automaticamente $3$ sigue a la persona $2$.
+El usuario $3$ tendría que seguir explícitamente al usuario $2$ para que exista
+esa relación.
+
+- Un grafo dirigido es un grafo $G = (V, E)$ donde:
+  + $V \neq \emptyset$
+  + $E \subseteq V \times V$, es decir, /E/ es un conjunto de pares ordenados
+    de /V/, dados por el producto cartesiano de /V/ consigo mismo.
+
+*Ejemplo* $V = \{1, 2, 3, 4, 5, 6\}$,
+$E = \{\{1, 2\}, \{1, 5\}, \{2, 3\}, \{2, 5\}, \{3, 4\}, \{4, 5\}, \{4, 6\}\}$
+#+name: fig:grafo_dirigido
+#+caption: Grafo dirigido
+#+attr_latex: :placement [htbp!] :width 0.8\textwidth :options keepaspectratio
+[[./img/grafo_dirigido.png]]
+** Representación computacional de grafos
+Existen diversas formas de representar computacionalmente a un grafo, entre las
+más comunes se encuentran:
+- Lista de nodos adyacentes
+- Matriz
+- Mediante conjuntos
+*** Lista de nodos adyacentes
+Como su nombre lo indica, se puede hacer la representación de un grafo a trvés
+de una lista de nodos adyacentes. La forma de llevar a cabo esta representación
+es creando una lista para cada nodo del grafo, y los elementos de dicha lista
+corresponden a los nodos con los que existe una relación.
+
+Las características de esta representación son:
+- Verificar la existencia de al arista $(u, v)$: $O(\deg(V))$.
+- Enlistar todos los nodos: $\Theta(m + n)$
+- Requerimiento espacial: $O(m + n)$.
+
+Como principal desventaja tiene el hecho de que existe una doble representación
+de las aristas, como se observa en la figura [[fig:lista_nodos]]. Del lado izquierdo
+se observa el grafo, del cual, se resalta en color rojo la arista $(4, 2)$. Del
+lado derecho, se muestra la representación de la lista de nodos adyacentes,
+donde también se resaltan con rojo los elementos correspondientes a dicha
+arista.
+
+#+name: fig:lista_nodos
+#+caption: Grafo y lista de nodos adyacentes
+#+attr_latex: :placement [htbp!] :width = 0.8\textwidth :options keepaspectratio
+[[./img/lista_nodos.png]]
+*** Matriz de adyacencia
+Se hace representando las aristas del grafo mediante una matriz, en donde los
+todas las filas de la matriz corresponden a un nodo del grafo; de igual manera,
+cada columna de la matriz corresponde a un nodo. Así, el elemento $(i, j)$ de la
+matriz indica si existe una arista entre el nodo /i/ y el nodo /j/. Los
+elementos de la matriz donde existe una arista contienen un "$1$", mientras que
+en aquellos elementos que representan aristas inexistentes hay un "$0$".
+
+La figura [[fig:matriz_adyacencia]] muestra del lado izquierdo un grafo, y del lado
+derecho, la representación coputacion de dicho grafo mediante el uso de una
+matriz de adyacencia.
+#+name: fig:matriz_adyacencia
+#+caption: Grafo y su matriz de adyacencia
+#+attr_latex: :placement [htbp!]
+[[./img/matriz_adyacencia.png]]
+
+Las características principales de este tipo de representación son:
+- Requerimiento espacial: $O(n^2)$. Donde /n/ es la cardinalidad del conjunto
+  de vértices o nodos, es decir, el número de nodos.
+- Verificar la existencia de una arista: $O(1)$
+- Enlistar todas las aristas: $O(n^2)$
+
+La principales desventajas de la matriz de adyacencia son: el alto requerimiento
+*** Representación con conjuntos
+Es una representación computacional que toma como base la definición matemática
+de un grafo. En la actualidad, la mayoría de lenguajes de programación de alto
+nivel, cuentan con la capacidad de manejar conjuntos de manera eficiente.
+
+Sus principales características son:
+- Requerimiento espacial: $O(m + n)$
+- Verificar la existencia de una arista: $\Theta(m)$
+- Listar todos los nodos: $\Theta(m)$
+
+Al igual que en una definición matemática, donde un grafo se toma como
+$G = (V, E)$, se definen computacionalmente
+dos conjuntos (siguiendo el mismo ejemplo utilizado para la lista y la matriz de
+adyacencia):
+- $V = \{1, 2, 3, 4, 5, 6, 7, 8\}$
+- $E = \{\{1, 2\}, \{1, 3\}, \{2, 3\}, \{2, 4\}, \{2, 5\}, \{3, 5\}, \{3, 7\},
+  \{3, 8\}, \{4, 5\}, \{5, 6\}, \{7, 8\}\}$
+
+La figura [[fig:grafo_conjuntos]] muestra el grafo representado por los conjuntos
+previamente descritos.
+
+#+name: fig:grafo_conjuntos
+#+caption: Grafo utilizado para la representación mediante conjuntos
+#+attr_latex: :placement [htbp!] :width 0.4\textwidth :options keepaspectratio
+[[./img/grafo_conjuntos.png]]
+** Proyecto 1
+** Conectividad y recorrido de grafos
+- Camino :: es una secuencia de nodos que están unidos por aristas
+  + Al definir un camino, es importante el orden en el que se enlistan los
+    nodos, ya que entre cada par de nodos (adyacentes) debe existir una arista.
+- En la figura [[fig:caminos]], podemos ver que:
+  + $4, 5, 2, 3, 1, 2$ es un camino
+  + $1, 7, 8, 3$ *NO* es un camino (no hay una arista que una a los nodos 1 y 7)
+#+name: fig:caminos
+#+caption: Grafo para visualizar caminos
+#+attr_latex: :placement [htbp!] :width 0.5 \textwidth :options keepaspectratio
+[[./img/caminos.png]]
+
+Formalmente, un camino en un grafo *no dirigido* $G = (V, E)$ es una secuencia
+/P/ de nodos $\{v_1, v_2, \cdots, v_{k-1}, v_k\}$. Con la propiedad de que
+para cada par consecutivo $v_i, v_{i + 1}$ está unido por una arista, es
+decir $(v_i, v_{i+1}) \in E$, $1 \leq i \leq k$
+
+Un camino es /simple/ si *todos sus nodos son diferentes*, es decir, que el
+camino no pasa más de una vez por un mismo nodo.
+
+- Conectividad :: se dice que un grafo es conectado si para *cada par* de nodos
+  $(u, v)$ existe un camino entre ellos. Es decir, si existe un par de nodos
+  $(u, v)$ para el cual no existe un camino, el grafo no está conectado.
+En la figura [[fig:grafo_no_conectado]] se observa un grafo no conectado, ya que
+hay ciertas parejas de nodos que no están conectadas, por ejemplo $(2, 11)$ o
+$(13, 8)$.
+#+name: fig:grafo_no_conectado
+#+caption: Grafo no conectado
+#+attr_latex: :placement [htbp!] :width 0.7\textwidth :options keepaspectratio
+[[./img/grafo_no_conectado.png]]
+
+- Ciclo :: Formalmente, un ciclo en un grafo no dirigido $G = (V, E)$ se define
+  como un camino en el cual existe un nodo $v_k$ tal que $v_1 = v_k$ para
+  $k > 2$ y además, todos los primeros $k - 1$ nodos son diferentes.
+En términos coloquiales entonces, un ciclo es un camino en un grafo no dirigido
+$G = (V, E)$ el cual inicia y termina en el mismo nodo, con la condición de que
+dicho camino está formado por más de dos aristas, las cuales deben conectar a
+dicho nodo inicial con otros nodos.
+
+En la figura [[fig:ciclos]] se puede definir un ciclo $1, 2, 4, 5, 3$. De acuerdo a
+la definición que se acaba de dar, el ciclo incia y termina en el mismo nodo,
+por lo tanto, no es necesario escribir de nuevo el nodo (en este caso $1$) al
+final del camino.
+#+name: fig:ciclos
+#+caption: Grafo para visualizar ciclos
+#+attr_latex: :placement [htbp!] :width 0.5\textwidth :options keepaspectratio
+[[./img/caminos.png]]
+** Árboles
+Un arbol es un grafo no dirigido $G = (V, E)$ que está conectado y *no tiene
+ciclos*. La figura [[fig:arbol]] muestra gráficamente la visualización de un grafo
+tipo árbol.
+
+#+name: fig:arbol
+#+caption: Arbol
+#+attr_latex: :placement [htbp!] :width 0.7\textwdith :options keepaspectratio
+[[./img/arbol.png]]
+
+De la definición de árbol dad previamente, se pueden inferir otras cosas con
+respecto a este tipo de grafo.
+- El árbol tiene el número justo de aristas para que el grafo esté conectado
+- Todos los nodos del árbol están conectados por un único camino simple
+- Si se agregara un arista al grafo, obtendríamos un ciclo.
+- $\abs{V} = \abs{E} + 1$
