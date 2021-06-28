@@ -1,0 +1,143 @@
+% Created 2021-06-07 lun 22:36
+% Intended LaTeX compiler: pdflatex
+\documentclass[letterpaper, 12pt]{article}
+\usepackage[hidelinks]{hyperref}
+\usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2.5cm]{geometry}
+\setcounter{secnumdepth}{0}
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{cite} % referencias y bibliografía
+\usepackage{babelbib}
+\usepackage{enumerate}
+\addto{\captionsspanish}{\renewcommand*{\listfigurename}{Índice de Figuras}}
+\addto{\captionsspanish}{\renewcommand*{\contentsname}{Índice}}
+\addto{\captionsspanish}{\renewcommand*{\listtablename}{Índice de Tablas}}
+\pagestyle{plain}
+\usepackage{eso-pic}
+\usepackage[hidelinks]{hyperref}
+\providecommand\phantomsection{}
+\usepackage{cleveref}
+\newcommand{\parg}{\par \hfill \break}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{RGB}{152, 152, 26}
+\definecolor{codegray}{RGB}{146, 131, 116}
+\definecolor{codepurple}{RGB}{177, 98, 134}
+\definecolor{backcolour}{RGB}{251, 241, 199}
+\definecolor{codeblue}{RGB}{69, 133, 136}
+\lstdefinestyle{mystyle}{
+backgroundcolor=\color{backcolour},
+commentstyle=\color{codegreen},
+keywordstyle=\color{codeblue},
+numberstyle=\tiny\color{codegray},
+stringstyle=\color{codepurple},
+basicstyle=\ttfamily\footnotesize,
+breakatwhitespace=false,
+breaklines=true,
+captionpos=b,
+keepspaces=true,
+numbers=left,
+numbersep=5pt,
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+tabsize=2
+}
+
+\lstset{style=mystyle}
+\newcommand{\tarea}{Tarea 03: Determinar la matriz inversa de la
+transformada de Fourier}
+\newcommand{\fecha}{07-junio-2021}
+\date{\today}
+\title{Tarea 03\\\medskip
+\large Diseño y Análisis de algoritmos}
+\hypersetup{
+ pdfauthor={Marco Antonio Cardoso Moreno},
+ pdftitle={Tarea 03},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.5)}, 
+ pdflang={Spanish}}
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+  \AddToShipoutPictureBG*{
+    \includegraphics[width=\paperwidth,height=\paperheight]
+        {../../portada/portada.pdf}}
+        \vspace*{2mm}
+        \rule{\textwidth}{1.5pt}\\
+        \vspace*{5mm}
+        \textbf{\Large INSTITUTO POLITÉCNICO NACIONAL}\\
+        \vspace*{8mm}
+        {\Large Centro de Investigación en Computación}\\
+        \vspace{8mm}
+        {\Large Maestría en Ciencias en Ingeniería de Cómputo}\\
+        \vspace{19mm}
+        {\Large Diseño y Análisis de Algoritmos}\\
+        \vspace{49mm}
+
+
+
+
+        \textbf{\large \tarea}\\
+
+
+
+
+
+        \vspace*{48mm}
+        {\large Docente: Dr. Rolando Quintero Téllez}\\
+        \vspace*{20mm}
+        {\large Alumno: Cardoso Moreno Marco Antonio}\\
+        \vspace*{10mm}
+        \rule{\textwidth}{1.5pt}\\
+        {\large Semestre A21} \hfill {\large Fecha: \fecha}
+    \end{center}
+\end{titlepage}
+
+\section{Determinar la matriz inversa de la transformada de Fourier}
+\label{sec:orge4f464a}
+\noindent
+La determinación de la matriz inversa de la transformada de Fourier se logra
+mediante los algoritmos presentados en el video 5.7 del curso Diseño y Análisis
+de Algoritmos.
+\parg
+Los códigos presentados a continuación fueron desarrollados en lenguaje
+\texttt{Python 3.6}, y se compararon los resultados con las funciones desarrolladas
+dentro de la librería Numpy.
+
+\subsection{FFT}
+\label{sec:org9d3c8b7}
+\lstinputlisting[language=python, caption=Función FFT, firstline=12, lastline=27]{./src/dft.py}
+\subsection{IFFT}
+\label{sec:orga4b9070}
+\lstinputlisting[language=python, caption=Función IFFT, firstline=29, lastline=43]{./src/dft.py}
+\subsection{Comparación de resultados vs numpy}
+\label{sec:orgb62f4ac}
+\noindent
+Se realizó la comparación de los resultados obtenidos mediante el desarrollo
+propio de las funciones \texttt{fft} e \texttt{ifft} contra las funciones \texttt{numpy.fft.fft} y
+\texttt{numpy.fft.ifft}, respectivamente.
+\parg
+
+La función \texttt{main} donde se ejecuta la comparación de las funciones se muestra a
+continuación
+\lstinputlisting[language=python, caption=Función Main, firstline=45]{./src/dft.py}
+
+\parg
+para la cual los resultados obtenidos fueron:
+\begin{center}
+\includegraphics[width=.9\linewidth]{./img/resultados_fft.png}
+\end{center}
+\end{document}

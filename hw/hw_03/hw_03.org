@@ -1,0 +1,121 @@
+#+TITLE: Tarea 03
+#+AUTHOR: Marco Antonio Cardoso Moreno
+#+STARTUP:  CONTENT
+#+SUBTITLE: Diseño y Análisis de algoritmos
+
+#+LANGUAGE: es
+#+EXPORT_FILE_NAME: tarea_03
+#+OPTIONS: toc:nil
+#+OPTIONS: title:nil
+#+OPTIONS: author:nil
+
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [letterpaper, 12pt]
+
+#+LATEX_HEADER: \usepackage[left=2.5cm, top=2.5cm, right=2.5cm, bottom=2.5cm]{geometry}
+# Índice sin númeración
+#+LATEX_HEADER: \setcounter{secnumdepth}{0}
+
+# español
+#+LATEX_HEADER: \usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+# non ASCII chars
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{caption}
+#+LATEX_HEADER: \usepackage{subcaption}
+#+LATEX_HEADER: \usepackage{physics}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{gensymb}
+#+LATEX_HEADER: \usepackage{siunitx}
+
+# code blocks
+#+LATEX_HEADER: \usepackage{listings}
+# insert pdf as images
+#+LATEX_HEADER: \usepackage{pdfpages}
+#+LATEX_HEADER: \usepackage{cite} % referencias y bibliografía
+#+LATEX_HEADER: \usepackage{babelbib}
+#+LATEX_HEADER: \usepackage{enumerate}
+
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\listfigurename}{Índice de Figuras}}
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\contentsname}{Índice}}
+#+LATEX_HEADER: \addto{\captionsspanish}{\renewcommand*{\listtablename}{Índice de Tablas}}
+#+LATEX_HEADER: \pagestyle{plain}
+
+#+LATEX_HEADER: \usepackage{eso-pic}
+#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
+#+LATEX_HEADER: \providecommand\phantomsection{}
+
+# for references to equations, figures, etc
+#+LATEX_HEADER: \usepackage{cleveref}
+
+#+LATEX_HEADER: \newcommand{\parg}{\par \hfill \break}
+
+
+#+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER:
+#+LATEX_HEADER: \definecolor{codegreen}{RGB}{152, 152, 26}
+#+LATEX_HEADER: \definecolor{codegray}{RGB}{146, 131, 116}
+#+LATEX_HEADER: \definecolor{codepurple}{RGB}{177, 98, 134}
+#+LATEX_HEADER: \definecolor{backcolour}{RGB}{251, 241, 199}
+#+LATEX_HEADER: \definecolor{codeblue}{RGB}{69, 133, 136}
+
+#+LATEX_HEADER: \lstdefinestyle{mystyle}{
+#+LATEX_HEADER:     backgroundcolor=\color{backcolour},
+#+LATEX_HEADER:     commentstyle=\color{codegreen},
+#+LATEX_HEADER:     keywordstyle=\color{codeblue},
+#+LATEX_HEADER:     numberstyle=\tiny\color{codegray},
+#+LATEX_HEADER:     stringstyle=\color{codepurple},
+#+LATEX_HEADER:     basicstyle=\ttfamily\footnotesize,
+#+LATEX_HEADER:     breakatwhitespace=false,
+#+LATEX_HEADER:     breaklines=true,
+#+LATEX_HEADER:     captionpos=b,
+#+LATEX_HEADER:     keepspaces=true,
+#+LATEX_HEADER:     numbers=left,
+#+LATEX_HEADER:     numbersep=5pt,
+#+LATEX_HEADER:     showspaces=false,
+#+LATEX_HEADER:     showstringspaces=false,
+#+LATEX_HEADER:     showtabs=false,
+#+LATEX_HEADER:     tabsize=2
+#+LATEX_HEADER: }
+#+LATEX_HEADER:
+#+LATEX_HEADER: \lstset{style=mystyle}
+
+
+
+
+# DATOS DE PORTADA
+#+LATEX_HEADER: \newcommand{\tarea}{Tarea 03: Determinar la matriz inversa de la
+#+LATEX_HEADER:         transformada de Fourier}
+#+LATEX_HEADER: \newcommand{\fecha}{07-junio-2021}
+
+#+INCLUDE: "./caratula.tex"
+
+* Determinar la matriz inversa de la transformada de Fourier
+\noindent
+La determinación de la matriz inversa de la transformada de Fourier se logra
+mediante los algoritmos presentados en el video 5.7 del curso Diseño y Análisis
+de Algoritmos.
+\parg
+Los códigos presentados a continuación fueron desarrollados en lenguaje
+=Python 3.6=, y se compararon los resultados con las funciones desarrolladas
+dentro de la librería Numpy.
+
+** FFT
+\lstinputlisting[language=python, caption=Función FFT, firstline=12, lastline=27]{./src/dft.py}
+** IFFT
+\lstinputlisting[language=python, caption=Función IFFT, firstline=29, lastline=43]{./src/dft.py}
+** Comparación de resultados vs numpy
+\noindent
+Se realizó la comparación de los resultados obtenidos mediante el desarrollo
+propio de las funciones =fft= e =ifft= contra las funciones =numpy.fft.fft= y
+=numpy.fft.ifft=, respectivamente.
+\parg
+
+La función =main= donde se ejecuta la comparación de las funciones se muestra a
+continuación
+\lstinputlisting[language=python, caption=Función Main, firstline=45]{./src/dft.py}
+
+\parg
+para la cual los resultados obtenidos fueron:
+[[./img/resultados_fft.png]]

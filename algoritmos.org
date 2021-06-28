@@ -626,14 +626,14 @@ cuadráticos, donde /k/ representa una potencia positiva de /n/. Ejemplos:
 * Unidad 3 - Grafos
 ** Definiciones básicas y Aplicaciones
 - un grafo (del griego /graphos/: dibujo o imagen) es un conjunto de objetos
-  llamados vértives o nodos, unidos por enlaces llamados aristas o arcos.
-- Permiten represnetar relaciones binarias entre elementos del conjunto de
+  llamados vértices o nodos, unidos por enlaces llamados aristas o arcos.
+- Permiten representar relaciones binarias entre elementos del conjunto de
   vertices
 - Son el objeto de estudio de la teoría de grafos
 - Típicamente, un grafo se representa gráficamente como un conjunto de puntos
   (vértices o nodos) unidos por líneas (aristas).
 
-Los grafos nos permiten estudias las relaciones que existen entre unidades. Por
+Los grafos nos permiten estudiar las relaciones que existen entre unidades. Por
 ejemplo, las redes de computadoras. En general, los grafos pueden aplicarse a
 cualquier problema donde existan relaciones entre elementos.
 
@@ -693,7 +693,7 @@ más comunes se encuentran:
 - Matriz
 - Mediante conjuntos
 *** Lista de nodos adyacentes
-Como su nombre lo indica, se puede hacer la representación de un grafo a trvés
+Como su nombre lo indica, se puede hacer la representación de un grafo a través
 de una lista de nodos adyacentes. La forma de llevar a cabo esta representación
 es creando una lista para cada nodo del grafo, y los elementos de dicha lista
 corresponden a los nodos con los que existe una relación.
